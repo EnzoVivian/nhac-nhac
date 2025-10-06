@@ -48,7 +48,7 @@ class MinimaxAI:
                 if beta <= alpha:
                     break
             return max_eval
-        else: # Minimizing
+        else:
             min_eval = float('inf')
             for move in possible_moves:
                 undo_info = self._make_move(game, move)

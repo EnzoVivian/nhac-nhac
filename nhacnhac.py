@@ -166,17 +166,14 @@ class NhacNhac:
                 return False
 
     def _check_winner(self) -> PlayerType | None:
-        # Rows
         for row in range(3):
             line = [self.board.top_gobbler_at((row, col)) for col in range(3)]
             if line[0] and all(g is not None and g.color == line[0].color for g in line):
                 return line[0].color
-        # Columns
         for col in range(3):
             line = [self.board.top_gobbler_at((row, col)) for row in range(3)]
             if line[0] and all(g is not None and g.color == line[0].color for g in line):
                 return line[0].color
-        # Diagonals
         diag1 = [self.board.top_gobbler_at((i, i)) for i in range(3)]
         if diag1[0] and all(g is not None and g.color == diag1[0].color for g in diag1):
             return diag1[0].color
