@@ -1,5 +1,3 @@
-# main.py
-
 from nhacnhac import NhacNhac, GameState, PutPlay, MovePlay
 from minMax import MinimaxAI
 

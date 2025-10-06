@@ -1,4 +1,4 @@
-from nhacnhac import NhacNhac, Player, NhacNhacPlay, PutPlay, MovePlay, Board, GameState, Gobbler, SizeType, PlayerType
+from nhacnhac import NhacNhac, Player, NhacNhacPlay, PutPlay, MovePlay, Board, Gobbler, SizeType
 
 class MinimaxAI:
     
