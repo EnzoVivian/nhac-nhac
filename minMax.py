@@ -133,7 +133,8 @@ class MinimaxAI:
         lines.append([board.top_gobbler_at((i, i)) for i in range(3)])
         lines.append([board.top_gobbler_at((i, 2 - i)) for i in range(3)])
         return lines
-
+    
+    # Gerado por IA
     def _evaluate_line(self, line: list[Gobbler | None]) -> int:
         score = 0
         ai_pieces = sum(1 for p in line if p and p.color == self.player.color)

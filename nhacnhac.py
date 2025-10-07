@@ -1,24 +1,25 @@
-# logica_jogo.py
-
-import copy
 from dataclasses import dataclass
 from abc import ABC
 from enum import Enum
 
+# Gerado por IA
 reset_code = "\033[0m"
 
+# Gerado por IA
 class PlayerType(str, Enum):
     RED = "red"
     BLUE = "blue"
 
     def color_code(self):
         return "\033[91m" if self == PlayerType.RED else "\033[94m"
-
+    
+# Gerado por IA
 class SizeType(int, Enum):
     SMALL = 1
     MEDIUM = 2
     LARGE = 3
-
+    
+# Gerado por IA
 @dataclass
 class Gobbler:
     size: SizeType
@@ -102,27 +103,31 @@ class Board:
         stack = self.board[pos[0]][pos[1]]
         return stack.pop() if stack else None
 
+# Gerado por IA
 @dataclass
 class NhacNhacPlay(ABC):
     player: Player
 
+# Gerado por IA
 @dataclass
 class PutPlay(NhacNhacPlay):
     gobbler_index: int
     pos: tuple[int, int]
 
+# Gerado por IA
 @dataclass
 class MovePlay(NhacNhacPlay):
     from_pos: tuple[int, int]
     to_pos: tuple[int, int]
 
+# Gerado por IA
 class GameState(Enum):
     P1_TURN = "p1_turn"
     P2_TURN = "p2_turn"
     P1_WINS = "p1_wins"
     P2_WINS = "p2_wins"
     DRAW = "draw"
-    
+
 class NhacNhac:
     board: Board
     p1: Player
