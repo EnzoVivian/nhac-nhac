@@ -1,3 +1,5 @@
+Grupo Bob BreezIA: Bruno Panizzi, Enzo Vivian, Guilherme Tavares e Gustavo Amaro
+
 Implementação do jogo Nhac Nhac e de uma inteligência artificial Minimax em Python para o trabalho de Inteligência Artificial, com suporte para:
 - Dois jogadores humanos
 - Humano vs IA
@@ -17,7 +19,7 @@ python3 main.py (Linux)
 ```
 
 Para jogar, basta seguir as instruções no terminal, lembrando que não existe limite para o número de jogadas que a IA pode prever, porém, como um dos requisitos
-do trabalho é o turno durar no máximo 30 segundos, é recomendado usar até 6 de profundidade.
+do trabalho é o turno durar no máximo 30 segundos, é recomendado usar até 5 de profundidade.
 
 Modos de jogo
 --------------------

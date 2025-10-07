@@ -1,52 +1,36 @@
 from nhacnhac import PutPlay, MovePlay, SizeType
-import time
-
-class TimeUpError(Exception):
-    pass
 
 class MinimaxAI:
     
-    def __init__(self, player, depth=10, time_limit=30):
+    def __init__(self, player, depth=10):
         self.player = player
         self.depth = depth
-        self.time_limit = time_limit
-        self.start_time = 0
-        self.best_move_so_far = None
 
     def choose_move(self, game):
-        self.start_time = time.time()
-        self.best_move_so_far = None
-
+        best_move = None
         best_value = -float('inf')
         alpha = -float('inf')
         beta = float('inf')
 
-        possible_moves = self._get_all_moves(game, self.player)
+        possible_moves = list(self._get_all_moves(game, self.player))
+        for move in possible_moves:
+            undo_info = self._make_move(game, move)
+            
+            board_value = self._minimax(game, self.depth - 1, alpha, beta, False)
+            
+            self._undo_move(game, move, undo_info)
+            
+            if board_value > best_value:
+                best_value = board_value
+                best_move = move
+            
+            alpha = max(alpha, board_value)
         
-        try:
-            for move in possible_moves:
-                undo_info = self._make_move(game, move)
-                
-                board_value = self._minimax(game, self.depth - 1, alpha, beta, False)
-                
-                self._undo_move(game, move, undo_info)
-                
-                if board_value > best_value:
-                    best_value = board_value
-                    self.best_move_so_far = move
-                
-                alpha = max(alpha, board_value)
-        
-        except TimeUpError:
-            pass
+        print(f"Jogada: {type(best_move).__name__}")
+        return best_move
 
-        print(f"Jogada: {type(self.best_move_so_far).__name__}")
-        return self.best_move_so_far
 
     def _minimax(self, game, depth, alpha, beta, is_maximizing):
-        if time.time() - self.start_time > self.time_limit:
-            raise TimeUpError()
-
         winner = game._check_winner()
         if depth == 0 or winner is not None:
             return self._evaluate_board(game)
@@ -146,13 +130,14 @@ class MinimaxAI:
         elif opp_pieces == 1 and ai_pieces == 0: score -= 50
         return score
 
+    # Otimização para criar jogadas gerado por IA
     def _get_all_moves(self, game, player):
-        moves = []
         for i, gobbler in enumerate(player.gobblers):
             for r in range(3):
                 for c in range(3):
                     if game.board.can_place_gobbler((r, c), gobbler):
-                        moves.append(PutPlay(player, i, (r, c)))
+                        yield PutPlay(player, i, (r, c))
+        
         for r in range(3):
             for c in range(3):
                 g = game.board.top_gobbler_at((r, c))
@@ -160,5 +145,6 @@ class MinimaxAI:
                     for r2 in range(3):
                         for c2 in range(3):
                             if (r, c) != (r2, c2) and game.board.can_place_gobbler((r2, c2), g):
-                                moves.append(MovePlay(player, (r, c), (r2, c2)))
-        return moves
+                                yield MovePlay(player, (r, c), (r2, c2))
+        
+        

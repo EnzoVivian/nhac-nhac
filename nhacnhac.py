@@ -35,7 +35,7 @@ class Player:
     color: PlayerType
     gobblers: list[Gobbler]
 
-    def __init__(self, name: str, color: PlayerType):
+    def __init__(self, name, color):
         self.name = name
         self.color = color
         self.gobblers = [Gobbler(size, color) for size in SizeType for _ in range(2)]
@@ -66,18 +66,18 @@ class Board:
                 board_str += '—' * 8 + '\n'
         return board_str
 
-    def validate_pos(self, pos: tuple[int, int]) -> bool:
+    def validate_pos(self, pos):
         return 0 <= pos[0] < 3 and 0 <= pos[1] < 3
 
-    def top_gobbler_at(self, pos: tuple[int, int]) -> Gobbler | None:
+    def top_gobbler_at(self, pos):
         stack = self.board[pos[0]][pos[1]]
         return stack[-1] if stack else None
 
-    def can_place_gobbler(self, pos: tuple[int, int], gobbler: Gobbler) -> bool:
+    def can_place_gobbler(self, pos, gobbler):
         top_gobbler = self.top_gobbler_at(pos)
         return top_gobbler is None or gobbler.size > top_gobbler.size
 
-    def place_gobbler(self, pos: tuple[int, int], gobbler: Gobbler) -> Gobbler | None:
+    def place_gobbler(self, pos, gobbler):
         if not self.can_place_gobbler(pos, gobbler):
             return "INVALID_MOVE"
         
@@ -85,7 +85,7 @@ class Board:
         self.board[pos[0]][pos[1]].append(gobbler)
         return covered_gobbler
 
-    def move_gobbler(self, from_pos: tuple[int, int], to_pos: tuple[int, int]) -> tuple[Gobbler, Gobbler | None] | str:
+    def move_gobbler(self, from_pos, to_pos):
         gobbler_to_move = self.top_gobbler_at(from_pos)
         if gobbler_to_move is None:
             return "INVALID_MOVE"
@@ -99,7 +99,7 @@ class Board:
         
         return (moved_gobbler, covered_gobbler)
 
-    def remove_top_gobbler(self, pos: tuple[int, int]) -> Gobbler | None:
+    def remove_top_gobbler(self, pos):
         stack = self.board[pos[0]][pos[1]]
         return stack.pop() if stack else None
 
@@ -128,13 +128,14 @@ class GameState(Enum):
     P2_WINS = "p2_wins"
     DRAW = "draw"
 
+# Uso de cores gerado por IA
 class NhacNhac:
     board: Board
     p1: Player
     p2: Player
     state: GameState
 
-    def __init__(self, p1_name: str, p2_name: str, initial_state=GameState.P1_TURN):
+    def __init__(self, p1_name, p2_name, initial_state=GameState.P1_TURN):
         self.board = Board()
         self.p1 = Player(p1_name, PlayerType.RED)
         self.p2 = Player(p2_name, PlayerType.BLUE)
@@ -144,13 +145,13 @@ class NhacNhac:
         return f"{self.p1}\n{self.p2}\n\n{self.board}"
 
     @property
-    def current_player(self) -> Player | None:
+    def current_player(self):
         match self.state:
             case GameState.P1_TURN: return self.p1
             case GameState.P2_TURN: return self.p2
             case _: return None
 
-    def _validate_move(self, move: NhacNhacPlay) -> bool:
+    def _validate_move(self, move):
         if move.player != self.current_player:
             return False
 
@@ -170,7 +171,7 @@ class NhacNhac:
             case _:
                 return False
 
-    def _check_winner(self) -> PlayerType | None:
+    def _check_winner(self):
         for row in range(3):
             line = [self.board.top_gobbler_at((row, col)) for col in range(3)]
             if line[0] and all(g is not None and g.color == line[0].color for g in line):
