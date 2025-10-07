@@ -2,7 +2,7 @@ from nhacnhac import NhacNhac, GameState, PutPlay, MovePlay
 from minMax import MinimaxAI
 import time
 
-# Gerado por IA
+# Interface do terminal gerada por IA
 def main():
     game = NhacNhac("Alice", "Bob")
     ai_p1 = None
@@ -18,7 +18,7 @@ def main():
 
     if choice in ['3', '4']:
         try:
-            depth_p1 = int(input("Qual a profundidade da IA para Alice (P1)?").strip())
+            depth_p1 = int(input("Qual a profundidade da IA para Alice (P1)? ").strip())
             ai_p1 = MinimaxAI(game.p1, depth=depth_p1)
         except ValueError:
             print("Profundidade inválida. Usando a padrão (3).")
@@ -26,7 +26,7 @@ def main():
 
     if choice in ['2', '4']:
         try:
-            depth_p2 = int(input("Qual a profundidade da IA para Bob (P2)?").strip())
+            depth_p2 = int(input("Qual a profundidade da IA para Bob (P2)? ").strip())
             ai_p2 = MinimaxAI(game.p2, depth=depth_p2)
         except ValueError:
             print("Profundidade inválida. Usando a padrão (3).")
@@ -40,12 +40,12 @@ def main():
         is_human_turn = True
 
         if current_player == game.p1 and ai_p1:
-            print(f"IA ({game.p1.name}) está pensando...")
+            print(f"{game.p1.name} está pensando...")
             move = ai_p1.choose_move(game)
             is_human_turn = False
 
         elif current_player == game.p2 and ai_p2:
-            print(f"IA ({game.p2.name}) está pensando...")
+            print(f"{game.p2.name} está pensando...")
             move = ai_p2.choose_move(game)
             is_human_turn = False
         

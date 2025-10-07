@@ -141,7 +141,7 @@ class NhacNhac:
         self.state = initial_state
 
     def __str__(self):
-        return f"{self.p1}\n{self.p2}\n{self.board}"
+        return f"{self.p1}\n{self.p2}\n\n{self.board}"
 
     @property
     def current_player(self) -> Player | None:
